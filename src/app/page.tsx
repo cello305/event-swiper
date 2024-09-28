@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import { db } from '@/server/db' // use the pre-configured Prisma client
-import { User } from '@prisma/client' // Import the User type from Prisma
+import type { User } from '@prisma/client'
 
 // Make this an async function to use await
 export default async function Home() {
