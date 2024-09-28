@@ -6,7 +6,21 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 
+const cardData = [
+  { id: 1, title: "Event 1", description: "Description for Event 1" },
+  { id: 2, title: "Event 2", description: "Description for Event 2" },
+  { id: 3, title: "Event 3", description: "Description for Event 3" },
+  { id: 4, title: "Event 4", description: "Description for Event 4" },
+  { id: 5, title: "Event 5", description: "Description for Event 5" },
+  { id: 6, title: "Event 6", description: "Description for Event 6" },
+  { id: 7, title: "Event 7", description: "Description for Event 7" },
+  { id: 8, title: "Event 8", description: "Description for Event 8" },
+  { id: 9, title: "Event 9", description: "Description for Event 9" },
+  { id: 10, title: "Event 10", description: "Description for Event 10" },
+];
+
 export default function Component() {
+  const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [direction, setDirection] = useState<'left' | 'right' | null>(null);
   const controls = useAnimation();
 
@@ -15,9 +29,17 @@ export default function Component() {
     if (info.offset.x > threshold) {
       setDirection('right');
       controls.start({ x: 300, opacity: 0 });
+      setTimeout(() => {
+        setCurrentCardIndex((prevIndex) => (prevIndex + 1) % cardData.length);
+        resetCard();
+      }, 300);
     } else if (info.offset.x < -threshold) {
       setDirection('left');
       controls.start({ x: -300, opacity: 0 });
+      setTimeout(() => {
+        setCurrentCardIndex((prevIndex) => (prevIndex + 1) % cardData.length);
+        resetCard();
+      }, 300);
     } else {
       controls.start({ x: 0, opacity: 1 });
     }
@@ -32,9 +54,17 @@ export default function Component() {
     if (event.key === "ArrowRight") {
       setDirection('right');
       controls.start({ x: 300, opacity: 0 });
+      setTimeout(() => {
+        setCurrentCardIndex((prevIndex) => (prevIndex + 1) % cardData.length);
+        resetCard();
+      }, 300);
     } else if (event.key === "ArrowLeft") {
       setDirection('left');
       controls.start({ x: -300, opacity: 0 });
+      setTimeout(() => {
+        setCurrentCardIndex((prevIndex) => (prevIndex + 1) % cardData.length);
+        resetCard();
+      }, 300);
     }
   };
 
@@ -57,8 +87,8 @@ export default function Component() {
         >
           <Card className="w-full h-full flex items-center justify-center shadow-xl">
             <CardContent className="text-center p-6">
-              <h2 className="text-2xl font-bold mb-4">Swipe Me!</h2>
-              <p className="text-gray-600">Drag the card left or right</p>
+              <h2 className="text-2xl font-bold mb-4">{cardData[currentCardIndex].title}</h2>
+              <p className="text-gray-600">{cardData[currentCardIndex].description}</p>
             </CardContent>
           </Card>
         </motion.div>
