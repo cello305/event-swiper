@@ -24,6 +24,11 @@ export default function Component() {
   const controls = useAnimation()
   const [isSwiping, setIsSwiping] = useState(false)
   const [isKeyPressed, setIsKeyPressed] = useState(false)
+  const [searchTerm, setSearchTerm] = useState('')
+
+  const filteredCardData = cardData.filter(card =>
+    card.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const handleSwipe = (newDirection: 'left' | 'right' | 'up' | 'down') => {
     if (isSwiping) return;
@@ -39,11 +44,9 @@ export default function Component() {
     setTimeout(() => {
       setCurrentCardIndex((prevIndex) => {
         if (newDirection === 'left' || newDirection === 'right' || newDirection === 'down') {
-          // Increment and wrap around to 0 if exceeding length
-          return (prevIndex + 1) % cardData.length;
+          return (prevIndex + 1) % filteredCardData.length;
         } else if (newDirection === 'up') {
-          // Decrement and wrap around to the last index if below 0
-          return (prevIndex - 1 + cardData.length) % cardData.length;
+          return (prevIndex - 1 + filteredCardData.length) % filteredCardData.length;
         }
         return prevIndex;
       });
@@ -80,16 +83,16 @@ export default function Component() {
     setIsKeyPressed(true);
     switch (event.key) {
       case "ArrowRight":
-        handleSwipe('right'); // Move right
+        handleSwipe('right'); 
         break;
       case "ArrowLeft":
-        handleSwipe('left'); // Move left
+        handleSwipe('left'); 
         break;
       case "ArrowUp":
-        handleSwipe('up'); // Move up
+        handleSwipe('up'); 
         break;
       case "ArrowDown":
-        handleSwipe('down'); // Move down
+        handleSwipe('down'); 
         break;
     }
   }  
@@ -108,22 +111,36 @@ export default function Component() {
   }, [])
 
   return (
-    <div
-      className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 p-4 overflow-hidden"
-    >
-      <div className="relative w-full max-w-md aspect-[9/16]">
+    <div className="min-h-screen flex flex-col items-center justify-start bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 p-4 overflow-hidden relative">
+      <div className="absolute top-4 right-4 z-10">
+        <input
+          type="text"
+          placeholder="Search events..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="p-2 rounded"
+        />
+      </div>
+
+      <div className="relative w-full max-w-md h-[100vh] flex flex-col justify-center py-6"> 
         <motion.div
           drag
           dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
           onDragEnd={handleDragEnd}
           animate={controls}
-          className="w-full h-full"
+          className="w-full h-full flex items-center justify-center"
         >
           <Card className="w-full h-full flex items-center justify-center shadow-xl">
-            <CardContent className="text-center p-6">
-              <h2 className="text-2xl font-bold mb-4">{cardData[currentCardIndex].title}</h2>
-              <p className="text-gray-600">{cardData[currentCardIndex].description}</p>
-            </CardContent>
+            {filteredCardData.length > 0 ? (
+              <CardContent className="text-center p-6">
+                <h2 className="text-2xl font-bold mb-4">{filteredCardData[currentCardIndex].title}</h2>
+                <p className="text-gray-600">{filteredCardData[currentCardIndex].description}</p>
+              </CardContent>
+            ) : (
+              <CardContent className="text-center p-6">
+                <p className="text-gray-600">No events found.</p>
+              </CardContent>
+            )}
           </Card>
         </motion.div>
         {direction && (
