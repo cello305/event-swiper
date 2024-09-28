@@ -1,32 +1,49 @@
-"use client"
+"use client";
 
-import { useState } from 'react'
-import { motion, useAnimation, PanInfo } from 'framer-motion'
-import { Card, CardContent } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { ArrowLeft, ArrowRight } from "lucide-react"
+import { useState, useEffect } from 'react';
+import { motion, useAnimation, PanInfo } from 'framer-motion';
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 
 export default function Component() {
-  const [direction, setDirection] = useState<'left' | 'right' | null>(null)
-  const controls = useAnimation()
+  const [direction, setDirection] = useState<'left' | 'right' | null>(null);
+  const controls = useAnimation();
 
   const handleDragEnd = (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
-    const threshold = 50 // minimum distance required to register a swipe
+    const threshold = 50; // minimum distance required to register a swipe
     if (info.offset.x > threshold) {
-      setDirection('right')
-      controls.start({ x: 300, opacity: 0 })
+      setDirection('right');
+      controls.start({ x: 300, opacity: 0 });
     } else if (info.offset.x < -threshold) {
-      setDirection('left')
-      controls.start({ x: -300, opacity: 0 })
+      setDirection('left');
+      controls.start({ x: -300, opacity: 0 });
     } else {
-      controls.start({ x: 0, opacity: 1 })
+      controls.start({ x: 0, opacity: 1 });
     }
-  }
+  };
 
   const resetCard = () => {
-    setDirection(null)
-    controls.start({ x: 0, opacity: 1 })
-  }
+    setDirection(null);
+    controls.start({ x: 0, opacity: 1 });
+  };
+
+  const handleKeyDown = (event: KeyboardEvent) => {
+    if (event.key === "ArrowRight") {
+      setDirection('right');
+      controls.start({ x: 300, opacity: 0 });
+    } else if (event.key === "ArrowLeft") {
+      setDirection('left');
+      controls.start({ x: -300, opacity: 0 });
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [controls]);
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 p-4">
@@ -59,5 +76,5 @@ export default function Component() {
         Reset Card
       </Button>
     </div>
-  )
+  );
 }
