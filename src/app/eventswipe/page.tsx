@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { motion, useAnimation, PanInfo } from 'framer-motion'
 import { Card, CardContent } from "@/components/ui/card"
 import { Home, User, CalendarDays } from "lucide-react"; // Removed Search
+import Sidebar from '../sidebar/page';
 
 const cardData = [
   { id: 1, title: "Event 1", description: "Description for Event 1" },
@@ -136,28 +137,37 @@ export default function Component() {
       </nav>
 
       {/* Main content */}
-      <div className="flex-1 flex flex-col items-center justify-start bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 p-4 overflow-hidden relative">
-        <div className="relative w-full max-w-md h-[100vh] flex flex-col justify-center py-5"> 
-          <motion.div
-            drag
-            dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
-            onDragEnd={handleDragEnd}
-            animate={controls}
-            className="w-full h-full flex items-center justify-center"
-          >
-            <Card className="w-full h-full flex items-center justify-center shadow-xl relative">
-              {filteredCardData.length > 0 ? (
-                <CardContent className="text-center p-6">
-                  <h2 className="text-2xl font-bold mb-4">{filteredCardData[currentCardIndex].title}</h2>
-                  <p className="text-gray-600">{filteredCardData[currentCardIndex].description}</p>
-                </CardContent>
-              ) : (
-                <CardContent className="text-center p-6">
-                  <h2 className="text-2xl font-bold mb-4">No Events Found</h2>
-                </CardContent>
-              )}
-            </Card>
-          </motion.div>
+      <div className="flex-1 flex flex-row items-start justify-center bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 p-4 overflow-hidden relative">
+        {/* Flex container for card swiper and sidebar */}
+        <div className="flex items-center justify-center w-full">
+          {/* Centered Card Swiper */}
+          <div className="relative w-full max-w-md h-[100vh] flex flex-col justify-center py-5 mx-auto"> 
+            <motion.div
+              drag
+              dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
+              onDragEnd={handleDragEnd}
+              animate={controls}
+              className="w-full h-full flex items-center justify-center"
+            >
+              <Card className="w-full h-full flex items-center justify-center shadow-xl relative">
+                {filteredCardData.length > 0 ? (
+                  <CardContent className="text-center p-6">
+                    <h2 className="text-2xl font-bold mb-4">{filteredCardData[currentCardIndex].title}</h2>
+                    <p className="text-gray-600">{filteredCardData[currentCardIndex].description}</p>
+                  </CardContent>
+                ) : (
+                  <CardContent className="text-center p-6">
+                    <h2 className="text-2xl font-bold mb-4">No Events Found</h2>
+                  </CardContent>
+                )}
+              </Card>
+            </motion.div>
+          </div>
+
+          {/* Sidebar on the right */}
+          <div className="w-72 ml-4"> {/* Adjust width as needed */}
+            <Sidebar />
+          </div>
         </div>
       </div>
     </div>
