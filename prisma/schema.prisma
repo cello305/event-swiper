@@ -14,7 +14,66 @@ datasource db {
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
+  id          Int          @id @default(autoincrement())
+  email       String       @unique
+  password    String
+  firstName   String       @map("first_name")
+  lastName    String       @map("last_name")
+  location    String?
+  skills      Skill[]      @relation("UserSkills")
+  interests   Interest[]   @relation("UserInterests")
+  events      Event[]      @relation("UserEvents")
+  createdAt   DateTime     @default(now()) @map("created_at")
+  updatedAt   DateTime     @updatedAt @map("updated_at")
+
+  @@map("users")
+}
+
+model Organization {
+  id          Int       @id @default(autoincrement())
+  name        String
+  description String?
+  location    String?
+  email       String    @unique
+  events      Event[]
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+
+  @@map("organizations")
+}
+
+model Event {
+  id             Int           @id @default(autoincrement())
+  title          String
+  description    String?
+  date           DateTime
+  location       String?
+  organization   Organization  @relation(fields: [organizationId], references: [id])
+  organizationId Int           @map("organization_id")
+  users          User[]        @relation("UserEvents")
+  skillsRequired Skill[]       @relation("EventSkills")
+  interests      Interest[]    @relation("EventInterests")
+  createdAt      DateTime      @default(now()) @map("created_at")
+  updatedAt      DateTime      @updatedAt @map("updated_at")
+
+  @@map("events")
+}
+
+
+model Skill {
+  id     Int     @id @default(autoincrement())
+  name   String  @unique
+  users  User[]  @relation("UserSkills")
+  events Event[] @relation("EventSkills")
+
+  @@map("skills")
+}
+
+model Interest {
+  id     Int     @id @default(autoincrement())
+  name   String  @unique
+  users  User[]  @relation("UserInterests")
+  events Event[] @relation("EventInterests")
+
+  @@map("interests")
 }
