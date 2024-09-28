@@ -3,20 +3,20 @@
 import { useState, useEffect } from 'react'
 import { motion, useAnimation, PanInfo } from 'framer-motion'
 import { Card, CardContent } from "@/components/ui/card"
-import { Home, User, CalendarDays } from "lucide-react"; // Removed Search
-import Sidebar from '../sidebar/page';
+import { Home, User, CalendarDays, Clock, Users, UserCircle } from "lucide-react"
+import Sidebar from '../sidebar/page'
 
 const cardData = [
-  { id: 1, title: "Event 1", description: "Description for Event 1" },
-  { id: 2, title: "Event 2", description: "Description for Event 2" },
-  { id: 3, title: "Event 3", description: "Description for Event 3" },
-  { id: 4, title: "Event 4", description: "Description for Event 4" },
-  { id: 5, title: "Event 5", description: "Description for Event 5" },
-  { id: 6, title: "Event 6", description: "Description for Event 6" },
-  { id: 7, title: "Event 7", description: "Description for Event 7" },
-  { id: 8, title: "Event 8", description: "Description for Event 8" },
-  { id: 9, title: "Event 9", description: "Description for Event 9" },
-  { id: 10, title: "Event 10", description: "Description for Event 10" },
+  { id: 1, title: "Event 1", description: "Description for Event 1", image: "https://static.wixstatic.com/media/5b305a_fa0728868614484488624d8453871cff~mv2.jpg/v1/fill/w_640,h_542,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/5b305a_fa0728868614484488624d8453871cff~mv2.jpg", date: "2023-07-15", time: "14:00", attendees: 25, organizer: "John Doe" },
+  { id: 2, title: "Event 2", description: "Description for Event 2", image: "/placeholder.svg?height=400&width=600", date: "2023-07-16", time: "15:30", attendees: 40, organizer: "Jane Smith" },
+  { id: 3, title: "Event 3", description: "Description for Event 3", image: "/placeholder.svg?height=400&width=600", date: "2023-07-17", time: "10:00", attendees: 15, organizer: "Bob Johnson" },
+  { id: 4, title: "Event 4", description: "Description for Event 4", image: "/placeholder.svg?height=400&width=600", date: "2023-07-18", time: "18:00", attendees: 50, organizer: "Alice Brown" },
+  { id: 5, title: "Event 5", description: "Description for Event 5", image: "/placeholder.svg?height=400&width=600", date: "2023-07-19", time: "09:30", attendees: 30, organizer: "Charlie Wilson" },
+  { id: 6, title: "Event 6", description: "Description for Event 6", image: "/placeholder.svg?height=400&width=600", date: "2023-07-20", time: "16:45", attendees: 20, organizer: "Diana Miller" },
+  { id: 7, title: "Event 7", description: "Description for Event 7", image: "/placeholder.svg?height=400&width=600", date: "2023-07-21", time: "11:15", attendees: 35, organizer: "Edward Davis" },
+  { id: 8, title: "Event 8", description: "Description for Event 8", image: "/placeholder.svg?height=400&width=600", date: "2023-07-22", time: "13:30", attendees: 45, organizer: "Fiona Taylor" },
+  { id: 9, title: "Event 9", description: "Description for Event 9", image: "/placeholder.svg?height=400&width=600", date: "2023-07-23", time: "19:00", attendees: 55, organizer: "George Martin" },
+  { id: 10, title: "Event 10", description: "Description for Event 10", image: "/placeholder.svg?height=400&width=600", date: "2023-07-24", time: "12:00", attendees: 60, organizer: "Hannah White" },
 ]
 
 export default function Component() {
@@ -26,36 +26,36 @@ export default function Component() {
   const [isSwiping, setIsSwiping] = useState(false)
   const [isKeyPressed, setIsKeyPressed] = useState(false)
 
-  const filteredCardData = cardData; // No longer filtering based on search
+  const filteredCardData = cardData
 
   const handleSwipe = (newDirection: 'left' | 'right' | 'up' | 'down') => {
-    if (isSwiping) return;
-    setIsSwiping(true);
-    setDirection(newDirection);
+    if (isSwiping) return
+    setIsSwiping(true)
+    setDirection(newDirection)
     
     controls.start({ 
-      x: newDirection === 'left' ? -150 : newDirection === 'right' ? 150 : 0, // Reduced distance
-      y: newDirection === 'up' ? -150 : newDirection === 'down' ? 150 : 0, // Reduced distance
+      x: newDirection === 'left' ? -150 : newDirection === 'right' ? 150 : 0,
+      y: newDirection === 'up' ? -150 : newDirection === 'down' ? 150 : 0,
       opacity: 0 
-    });
+    })
     
     setTimeout(() => {
       setCurrentCardIndex((prevIndex) => {
         if (newDirection === 'left' || newDirection === 'right' || newDirection === 'down') {
-          return (prevIndex + 1) % filteredCardData.length;
+          return (prevIndex + 1) % filteredCardData.length
         } else if (newDirection === 'up') {
-          return (prevIndex - 1 + filteredCardData.length) % filteredCardData.length;
+          return (prevIndex - 1 + filteredCardData.length) % filteredCardData.length
         }
-        return prevIndex;
-      });
-      resetCard();
-    }, 150);
-  };   
+        return prevIndex
+      })
+      resetCard()
+    }, 150)
+  }   
 
   const resetCard = () => {
     setDirection(null)
     controls.start({ x: 0, y: 0, opacity: 1 })
-    setIsSwiping(false);
+    setIsSwiping(false)
   }
 
   const handleDragEnd = (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
@@ -76,23 +76,23 @@ export default function Component() {
   }
 
   const handleKeyDown = (event: KeyboardEvent) => {
-    if (isKeyPressed) return;
+    if (isKeyPressed) return
   
-    setIsKeyPressed(true);
+    setIsKeyPressed(true)
     switch (event.key) {
       case "ArrowRight":
-        handleSwipe('right'); 
-        break;
+        handleSwipe('right')
+        break
       case "ArrowLeft":
-        handleSwipe('left'); 
-        break;
+        handleSwipe('left')
+        break
       case "ArrowUp":
-        handleSwipe('up'); 
-        break;
+        handleSwipe('up')
+        break
       case "ArrowDown":
-        handleSwipe('down'); 
-        event.preventDefault();
-        break;
+        handleSwipe('down')
+        event.preventDefault()
+        break
     }
   }  
 
@@ -115,7 +115,7 @@ export default function Component() {
       <nav className="bg-gray-900 text-white w-64 flex flex-col items-center py-6">
         <div className="mb-8">
           <img
-            src="/logo.png" // Replace with your own logo or icon
+            src="/placeholder.svg?height=32&width=32"
             alt="Logo"
             className="w-8 h-8"
           />
@@ -149,12 +149,41 @@ export default function Component() {
               animate={controls}
               className="w-full h-full flex items-center justify-center"
             >
-              <Card className="w-full h-full flex items-center justify-center shadow-xl relative">
+              <Card className="w-full h-full flex flex-col shadow-xl relative overflow-hidden rounded-3xl">
                 {filteredCardData.length > 0 ? (
-                  <CardContent className="text-center p-6">
-                    <h2 className="text-2xl font-bold mb-4">{filteredCardData[currentCardIndex].title}</h2>
-                    <p className="text-gray-600">{filteredCardData[currentCardIndex].description}</p>
-                  </CardContent>
+                  <>
+                    <div className="relative w-full h-3/5">
+                      <img
+                        src={filteredCardData[currentCardIndex].image}
+                        alt={filteredCardData[currentCardIndex].title}
+                        className="w-full h-full object-cover rounded-t-3xl"
+                      />
+                    </div>
+                    <CardContent className="text-center p-6 flex-grow flex flex-col justify-between">
+                      <div>
+                        <h2 className="text-2xl font-bold mb-2">{filteredCardData[currentCardIndex].title}</h2>
+                        <p className="text-gray-600 mb-4">{filteredCardData[currentCardIndex].description}</p>
+                      </div>
+                      <div className="text-sm text-gray-500 space-y-2">
+                        <div className="flex items-center justify-center">
+                          <CalendarDays className="w-4 h-4 mr-2" />
+                          <span>Date: {filteredCardData[currentCardIndex].date}</span>
+                        </div>
+                        <div className="flex items-center justify-center">
+                          <Clock className="w-4 h-4 mr-2" />
+                          <span>Time: {filteredCardData[currentCardIndex].time}</span>
+                        </div>
+                        <div className="flex items-center justify-center">
+                          <Users className="w-4 h-4 mr-2" />
+                          <span>Attendees: {filteredCardData[currentCardIndex].attendees}</span>
+                        </div>
+                        <div className="flex items-center justify-center">
+                          <UserCircle className="w-4 h-4 mr-2" />
+                          <span>Organizer: {filteredCardData[currentCardIndex].organizer}</span>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </>
                 ) : (
                   <CardContent className="text-center p-6">
                     <h2 className="text-2xl font-bold mb-4">No Events Found</h2>
@@ -165,7 +194,7 @@ export default function Component() {
           </div>
 
           {/* Sidebar on the right */}
-          <div className="w-72 ml-4"> {/* Adjust width as needed */}
+          <div className="w-72 ml-4">
             <Sidebar />
           </div>
         </div>
