@@ -1,115 +1,95 @@
-'use client'
+"use client";
+import { useEffect, useState } from "react";
+import Image from "next/image";
 
-import { Globe } from "lucide-react"
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion"
+const cities = ["New York", "Los Angeles", "Chicago", "Houston", "Phoenix", "Philadelphia", "San Antonio", "San Diego", "Dallas", "San Jose"];
 
-export default function Homepage() {
+export default function Home() {
+  const [displayedText, setDisplayedText] = useState("");
+  const [index, setIndex] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  useEffect(() => {
+    const typingEffect = setInterval(() => {
+      const fullText = cities[index % cities.length];
+      setDisplayedText((prev) => {
+        if (isDeleting) {
+          const updatedText = prev.slice(0, prev.length - 1);
+          if (updatedText.length === 0) {
+            setIsDeleting(false);
+            setIndex((prevIndex) => prevIndex + 1);
+          }
+          return updatedText;
+        } else {
+          const updatedText = fullText.slice(0, prev.length + 1);
+          if (updatedText.length === fullText.length) {
+            setIsDeleting(true);
+          }
+          return updatedText;
+        }
+      });
+    }, isDeleting ? 150 : 300);
+
+    return () => clearInterval(typingEffect);
+  }, [index, isDeleting]);
+
   return (
-    <div className={`flex flex-col min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300`}>
-      <header className="px-4 lg:px-6 h-14 flex items-center border-b border-gray-200 dark:border-gray-700">
-        <Link className="flex items-center justify-center" href="#">
-          <Globe className="h-6 w-6" />
-          <span className="ml-2 text-lg font-bold">Template</span>
-        </Link>
-        <nav className="ml-auto flex items-center gap-4 sm:gap-6">
-          <Link className="text-sm font-medium hover:underline underline-offset-4" href="#">
-            Features
-          </Link>
-          <Link className="text-sm font-medium hover:underline underline-offset-4" href="#">
-            About
-          </Link>
-          <Link className="text-sm font-medium hover:underline underline-offset-4" href="#">
-            Contact
-          </Link>
-          <Link href="/login">
-            <Button variant="outline" size="sm">
-              Log In
-            </Button>
-          </Link>
-        </nav>
-      </header>
-      <main className="flex-1">
-        <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48">
-          <div className="container px-4 md:px-6">
-            <div className="flex flex-col items-center space-y-4 text-center">
-              <div className="space-y-2">
-                <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
-                  Welcome to Template
-                </h1>
-                <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl dark:text-gray-400">
-                  Empowering businesses with innovative solutions. Discover how we can transform your workflow and boost productivity.
-                </p>
-              </div>
-              <div className="space-x-4">
-                <Link href="/signup">
-                  <Button className="inline-flex h-11 items-center justify-center rounded-md bg-primary text-primary-foreground px-8 py-2 text-sm font-medium shadow transition-colors hover:bg-primary/90">
-                    Sign Up
-                  </Button>
-                </Link>
-                <Button
-                  variant="outline"
-                  className="inline-flex h-11 items-center justify-center rounded-md px-8 py-2 text-sm font-medium transition-colors hover:bg-muted"
-                >
-                  Learn more
-                </Button>
-              </div>
-            </div>
-          </div>
-        </section>
-        <section className="w-full py-12 md:py-24 lg:py-32">
-          <div className="container px-4 md:px-6">
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center mb-8">
-              Frequently Asked Questions
-            </h2>
-            <Accordion type="single" collapsible className="w-full max-w-3xl mx-auto">
-              <AccordionItem value="item-1">
-                <AccordionTrigger>What services does Template offer?</AccordionTrigger>
-                <AccordionContent>
-                  Template offers a wide range of services including cloud computing solutions, data analytics, AI-powered tools, and custom software development tailored to meet the unique needs of businesses across various industries.
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem value="item-2">
-                <AccordionTrigger>How can I get started with Template?</AccordionTrigger>
-                <AccordionContent>
-                  Getting started is easy! Simply click the "Get Started" button at the top of this page, and you'll be guided through our onboarding process. Our team will work closely with you to understand your needs and set up the perfect solution for your business.
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem value="item-3">
-                <AccordionTrigger>What kind of support does Template provide?</AccordionTrigger>
-                <AccordionContent>
-                  We offer 24/7 customer support through various channels including phone, email, and live chat. Our dedicated support team is always ready to assist you with any questions or issues you may encounter.
-                </AccordionContent>
-              </AccordionItem>
-              <AccordionItem value="item-4">
-                <AccordionTrigger>Is Template suitable for small businesses?</AccordionTrigger>
-                <AccordionContent>
-                  We have solutions tailored for businesses of all sizes, from startups to large enterprises. Our scalable services allow you to start small and grow as your business expands, ensuring you only pay for what you need.
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
-          </div>
-        </section>
-      </main>
-      <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t border-gray-200 dark:border-gray-700">
-        <p className="text-xs text-gray-500 dark:text-gray-400">
-          © 2023 Template. All rights reserved.
-        </p>
-        <nav className="sm:ml-auto flex gap-4 sm:gap-6">
-          <Link className="text-xs hover:underline underline-offset-4" href="#">
-            Terms of Service
-          </Link>
-          <Link className="text-xs hover:underline underline-offset-4" href="#">
-            Privacy
-          </Link>
-        </nav>
-      </footer>
+    <div className="flex flex-col items-center justify-center min-h-screen p-4 gap-8 sm:p-8 font-[family-name:var(--font-geist-sans)]">
+      <Image
+        className="dark:invert"
+        src="https://nextjs.org/icons/event.svg"
+        alt="Event Swiper logo"
+        width={180}
+        height={38}
+        priority
+      />
+      <h1 className="text-2xl font-bold text-center sm:text-left">
+        Discover Upcoming Events with Event-Swiper
+      </h1>
+      <p className="text-sm text-center sm:text-left">
+        Easily browse through the latest events and find what interests you!
+      </p>
+
+      <p className="text-center sm:text-left">
+        Events now hosting in: <span className="font-mono">{displayedText}</span>
+        <span className="cursor">|</span>
+      </p>
+
+      <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
+        <li className="mb-2">Swipe up and down to discover events or people.</li>
+        <li>Swipe right on what you're interested and find your community.</li>
+      </ol>
+
+      <div className="flex justify-center">
+        <a
+          className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
+          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Image
+            className="dark:invert"
+            src="https://nextjs.org/icons/vercel.svg"
+            alt="Vercel logomark"
+            width={20}
+            height={20}
+          />
+          Find Events Near Me
+        </a>
+      </div>
+
+      <style jsx>{`
+        .cursor {
+          display: inline-block;
+          animation: blink 1s step-end infinite;
+        }
+
+        @keyframes blink {
+          50% {
+            opacity: 0;
+          }
+        }
+      `}</style>
     </div>
-  )
+  );
 }
