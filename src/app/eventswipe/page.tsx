@@ -28,26 +28,28 @@ export default function Component() {
   const handleSwipe = (newDirection: 'left' | 'right' | 'up' | 'down') => {
     if (isSwiping) return;
     setIsSwiping(true);
-    setDirection(newDirection)
+    setDirection(newDirection);
     
     controls.start({ 
       x: newDirection === 'left' ? -300 : newDirection === 'right' ? 300 : 0,
       y: newDirection === 'up' ? -300 : newDirection === 'down' ? 300 : 0,
       opacity: 0 
-    })
+    });
     
     setTimeout(() => {
       setCurrentCardIndex((prevIndex) => {
         if (newDirection === 'left' || newDirection === 'right' || newDirection === 'down') {
-          return (prevIndex + 1)
+          // Increment and wrap around to 0 if exceeding length
+          return (prevIndex + 1) % cardData.length;
         } else if (newDirection === 'up') {
-          return (prevIndex - 1)
+          // Decrement and wrap around to the last index if below 0
+          return (prevIndex - 1 + cardData.length) % cardData.length;
         }
-        return prevIndex
-      })
-      resetCard()
-    }, 300)
-  }
+        return prevIndex;
+      });
+      resetCard();
+    }, 300);
+  };  
 
   const resetCard = () => {
     setDirection(null)
