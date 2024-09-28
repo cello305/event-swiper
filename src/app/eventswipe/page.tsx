@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { motion, useAnimation, PanInfo } from 'framer-motion'
 import { Card, CardContent } from "@/components/ui/card"
-import { ArrowLeft, ArrowRight, ArrowUp, ArrowDown } from "lucide-react"
+import { Home, User, CalendarDays } from "lucide-react"; // Removed Search
 
 const cardData = [
   { id: 1, title: "Event 1", description: "Description for Event 1" },
@@ -24,11 +24,8 @@ export default function Component() {
   const controls = useAnimation()
   const [isSwiping, setIsSwiping] = useState(false)
   const [isKeyPressed, setIsKeyPressed] = useState(false)
-  const [searchTerm, setSearchTerm] = useState('')
 
-  const filteredCardData = cardData.filter(card =>
-    card.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredCardData = cardData; // No longer filtering based on search
 
   const handleSwipe = (newDirection: 'left' | 'right' | 'up' | 'down') => {
     if (isSwiping) return;
@@ -36,8 +33,8 @@ export default function Component() {
     setDirection(newDirection);
     
     controls.start({ 
-      x: newDirection === 'left' ? -300 : newDirection === 'right' ? 300 : 0,
-      y: newDirection === 'up' ? -300 : newDirection === 'down' ? 300 : 0,
+      x: newDirection === 'left' ? -150 : newDirection === 'right' ? 150 : 0, // Reduced distance
+      y: newDirection === 'up' ? -150 : newDirection === 'down' ? 150 : 0, // Reduced distance
       opacity: 0 
     });
     
@@ -51,8 +48,8 @@ export default function Component() {
         return prevIndex;
       });
       resetCard();
-    }, 300);
-  };  
+    }, 150);
+  };   
 
   const resetCard = () => {
     setDirection(null)
@@ -93,6 +90,7 @@ export default function Component() {
         break;
       case "ArrowDown":
         handleSwipe('down'); 
+        event.preventDefault();
         break;
     }
   }  
@@ -111,46 +109,56 @@ export default function Component() {
   }, [])
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-start bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 p-4 overflow-hidden relative">
-      <div className="absolute top-4 right-4 z-10">
-        <input
-          type="text"
-          placeholder="Search events..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="p-2 rounded"
-        />
-      </div>
+    <div className="min-h-screen flex">
+      {/* Static Sidebar */}
+      <nav className="bg-gray-900 text-white w-64 flex flex-col items-center py-6">
+        <div className="mb-8">
+          <img
+            src="/logo.png" // Replace with your own logo or icon
+            alt="Logo"
+            className="w-8 h-8"
+          />
+        </div>
+        <ul className="space-y-6">
+          <li className="flex items-center cursor-pointer hover:text-pink-500">
+            <Home size={24} />
+            <span className="ml-2">Home</span>
+          </li>
+          <li className="flex items-center cursor-pointer hover:text-pink-500">
+            <User size={24} />
+            <span className="ml-2">Profile</span>
+          </li>
+          <li className="flex items-center cursor-pointer hover:text-pink-500">
+            <CalendarDays size={24} />
+            <span className="ml-2">Events</span>
+          </li>
+        </ul>
+      </nav>
 
-      <div className="relative w-full max-w-md h-[100vh] flex flex-col justify-center py-6"> 
-        <motion.div
-          drag
-          dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
-          onDragEnd={handleDragEnd}
-          animate={controls}
-          className="w-full h-full flex items-center justify-center"
-        >
-          <Card className="w-full h-full flex items-center justify-center shadow-xl">
-            {filteredCardData.length > 0 ? (
-              <CardContent className="text-center p-6">
-                <h2 className="text-2xl font-bold mb-4">{filteredCardData[currentCardIndex].title}</h2>
-                <p className="text-gray-600">{filteredCardData[currentCardIndex].description}</p>
-              </CardContent>
-            ) : (
-              <CardContent className="text-center p-6">
-                <p className="text-gray-600">No events found.</p>
-              </CardContent>
-            )}
-          </Card>
-        </motion.div>
-        {direction && (
-          <div className="absolute text-white text-6xl">
-            {direction === 'up' && <ArrowUp className="bottom-4 left-1/2 -translate-x-1/2" />}
-            {direction === 'down' && <ArrowDown className="top-4 left-1/2 -translate-x-1/2" />}
-            {direction === 'left' && <ArrowLeft className="right-4 top-1/2 -translate-y-1/2" />}
-            {direction === 'right' && <ArrowRight className="left-4 top-1/2 -translate-y-1/2" />}
-          </div>
-        )}
+      {/* Main content */}
+      <div className="flex-1 flex flex-col items-center justify-start bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 p-4 overflow-hidden relative">
+        <div className="relative w-full max-w-md h-[100vh] flex flex-col justify-center py-5"> 
+          <motion.div
+            drag
+            dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
+            onDragEnd={handleDragEnd}
+            animate={controls}
+            className="w-full h-full flex items-center justify-center"
+          >
+            <Card className="w-full h-full flex items-center justify-center shadow-xl relative">
+              {filteredCardData.length > 0 ? (
+                <CardContent className="text-center p-6">
+                  <h2 className="text-2xl font-bold mb-4">{filteredCardData[currentCardIndex].title}</h2>
+                  <p className="text-gray-600">{filteredCardData[currentCardIndex].description}</p>
+                </CardContent>
+              ) : (
+                <CardContent className="text-center p-6">
+                  <h2 className="text-2xl font-bold mb-4">No Events Found</h2>
+                </CardContent>
+              )}
+            </Card>
+          </motion.div>
+        </div>
       </div>
     </div>
   )
