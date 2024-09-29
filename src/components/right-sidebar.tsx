@@ -49,9 +49,11 @@ export default function RightSidebar() {
             <AvatarImage src="https://github.com/JV-FIU.png" />
             <AvatarFallback>MC</AvatarFallback>
           </Avatar>
-          <span className="text-white font-bold">
-            Florida International University
-          </span>
+          <Link href="organization">
+            <span className="text-white font-bold">
+              Florida International University
+            </span>
+          </Link>
         </div>
       </Box>
 
