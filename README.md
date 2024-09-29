@@ -1,4 +1,6 @@
-<h1 align="center">JoinUp</h1>
+<p align="center">
+    <img src="https://github.com/user-attachments/assets/7d0bd685-25e1-494e-97f7-30feb1debbe3"  alt="JoinUp" width="150"/>
+</p>
 
 <p align="center">
     <a>A platform to find events and volunteer opportunities that make an impact</a>‎ ‎ |‎ ‎ <a href="https://devpost.com/software/joinup-x8gv4m">Devpost</a>
