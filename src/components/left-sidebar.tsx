@@ -7,10 +7,7 @@ import { ProfileButton } from '@/components/ui/profile-button'
 export function LeftSidebar() {
   return (
     <section className="custom-scrollbar leftsidebar">
-      <div className="flex items-center">
-        <Logo width={28} height={28} />
-        <span className="text-light-1 text-2xl font-bold">JoinUp</span>
-      </div>
+      <Logo width={95} height={95} />
       <div className="flex w-full flex-1 flex-col gap-1 px-6 items-center lg:items-start">
         <NavigationLinks
           links={sidebarLinks}
