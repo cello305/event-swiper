@@ -1,0 +1,111 @@
+export const cardData = [
+  {
+    id: 1,
+    title: 'FIU Campus Cleanup',
+    description:
+      'Join students and staff from Florida International University for a campus-wide cleanup event to keep our environment clean and green.',
+    image: '/fiu_cleanup.jpg',
+    date: '2024-10-15',
+    time: '09:00',
+    attendees: 200,
+    organizer: 'Florida International University Green Team',
+  },
+  {
+    id: 2,
+    title: 'Beach Cleanup Drive',
+    description:
+      'Join us for a day of cleaning up the local beach and preserving marine life.',
+    image: '/beach_cleanup.jpg',
+    date: '2024-10-05',
+    time: '08:00',
+    attendees: 120,
+    organizer: 'Ocean Conservation Society',
+  },
+  {
+    id: 3,
+    title: 'Community Garden Planting',
+    description:
+      'Help plant new vegetables and flowers in our community garden project.',
+    image: '/community_garden.jpg',
+    date: '2024-10-10',
+    time: '09:30',
+    attendees: 50,
+    organizer: 'Green Earth Volunteers',
+  },
+  {
+    id: 4,
+    title: 'Senior Center Tech Help',
+    description:
+      'Volunteer to teach seniors how to use smartphones and computers.',
+    image: '/tech_help.jpg',
+    date: '2024-10-12',
+    time: '14:00',
+    attendees: 15,
+    organizer: 'Helping Hands for Seniors',
+  },
+  {
+    id: 5,
+    title: 'Food Bank Distribution',
+    description: 'Assist in sorting and distributing food to families in need.',
+    image: '/food_bank.jpg',
+    date: '2024-10-14',
+    time: '10:00',
+    attendees: 80,
+    organizer: 'Feeding Families Initiative',
+  },
+  {
+    id: 6,
+    title: 'Youth Coding Workshop',
+    description:
+      'Teach coding basics to underprivileged youth in this one-day workshop.',
+    image: '/coding_workshop.jpg',
+    date: '2024-10-16',
+    time: '13:00',
+    attendees: 25,
+    organizer: 'Code for a Cause',
+  },
+  {
+    id: 7,
+    title: 'Park Tree Planting',
+    description:
+      'Help reforest the local park by planting trees and spreading awareness.',
+    image: '/tree_planting.jpg',
+    date: '2024-10-18',
+    time: '09:00',
+    attendees: 60,
+    organizer: 'Trees for Tomorrow',
+  },
+  {
+    id: 8,
+    title: 'Homeless Shelter Meal Service',
+    description:
+      'Volunteer to prepare and serve meals to the homeless in our community.',
+    image: '/meal_service.jpg',
+    date: '2024-10-20',
+    time: '11:00',
+    attendees: 30,
+    organizer: 'Community Care Network',
+  },
+  {
+    id: 9,
+    title: 'Habitat for Humanity Build',
+    description:
+      'Join a team to help build affordable housing for low-income families.',
+    image: '/habitat_build.jpg',
+    date: '2024-10-22',
+    time: '08:30',
+    attendees: 100,
+    organizer: 'Habitat for Humanity',
+  },
+  {
+    id: 10,
+    title: 'Animal Shelter Volunteer Day',
+    description:
+      'Spend the day helping at the local animal shelter with feeding and cleaning.',
+    image: '/animal_shelter.jpg',
+    date: '2024-10-24',
+    time: '12:00',
+    attendees: 40,
+    organizer: 'Pet Rescue Foundation',
+  },
+]
