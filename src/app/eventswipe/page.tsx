@@ -173,14 +173,6 @@ export default function Component() {
                           <Clock className="w-4 h-4 mr-2" />
                           <span>Time: {filteredCardData[currentCardIndex].time}</span>
                         </div>
-                        <div className="flex items-center justify-center">
-                          <Users className="w-4 h-4 mr-2" />
-                          <span>Attendees: {filteredCardData[currentCardIndex].attendees}</span>
-                        </div>
-                        <div className="flex items-center justify-center">
-                          <UserCircle className="w-4 h-4 mr-2" />
-                          <span>Organizer: {filteredCardData[currentCardIndex].organizer}</span>
-                        </div>
                       </div>
                     </CardContent>
                   </>
